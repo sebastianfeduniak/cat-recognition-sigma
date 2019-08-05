@@ -72,7 +72,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "cat-recognition-sigma/persistence.js",
-        "code": "let AWS = require('aws-sdk');\n'use strict';\n\nconst config = require('./config');\nconst AWSXRay = require('aws-xray-sdk');\nconst AWS = AWSXRay.captureAWS(require('aws-sdk'));\nconst dynamoDb = new AWS.DynamoDB.DocumentClient();\n\nmodule.exports.dbItem = (fileName, scanned, scanningStatus) => {\n    return {\n        TableName: config().serverless_cat_detector_results_table,\n        Item: {\n            'name': fileName,\n            'checked': scanned,\n            'status': scanningStatus\n        }\n    };\n};\n\nmodule.exports.putStatus = (fileName, scanned, scanningStatus) => {\n    const statusItem = module.exports.dbItem(fileName, scanned, scanningStatus);\n    return dynamoDb.put(statusItem).promise();\n};\n\nmodule.exports.getStatusOfAll = async () => {\n    const params = {\n        TableName: config().serverless_cat_detector_results_table,\n        AttributesToGet: [\"name\", \"checked\", \"status\"]\n    };\n    return (await dynamoDb.scan(params).promise()).Items;\n}"
+        "code": "'use strict';\n\nconst config = require('./config');\nconst AWSXRay = require('aws-xray-sdk');\nconst AWS = AWSXRay.captureAWS(require('aws-sdk'));\nconst dynamoDb = new AWS.DynamoDB.DocumentClient();\n\nmodule.exports.dbItem = (fileName, scanned, scanningStatus) => {\n    return {\n        TableName: config().serverless_cat_detector_results_table,\n        Item: {\n            'name': fileName,\n            'checked': scanned,\n            'status': scanningStatus\n        }\n    };\n};\n\nmodule.exports.putStatus = (fileName, scanned, scanningStatus) => {\n    const statusItem = module.exports.dbItem(fileName, scanned, scanningStatus);\n    return dynamoDb.put(statusItem).promise();\n};\n\nmodule.exports.getStatusOfAll = async () => {\n    const params = {\n        TableName: config().serverless_cat_detector_results_table,\n        AttributesToGet: [\"name\", \"checked\", \"status\"]\n    };\n    return (await dynamoDb.scan(params).promise()).Items;\n}"
       },
       "e0bc3aec-dd97-4828-ac6f-89e8454a4000": {
         "id": "e0bc3aec-dd97-4828-ac6f-89e8454a4000",
@@ -90,9 +90,11 @@
     "rootNode": "0d982568-3e10-4b4f-a0c5-658fae6474a0",
     "openFiles": [
       "e592c9ea-eebe-46f9-ace0-851f83c01656",
-      "e0bc3aec-dd97-4828-ac6f-89e8454a4000"
+      "e0bc3aec-dd97-4828-ac6f-89e8454a4000",
+      "62473a78-42da-4e17-8f3b-d1be07bf9ab5",
+      "4f0792e6-a77f-4ce3-b6e9-12bc66344c68"
     ],
-    "currentFileId": "e592c9ea-eebe-46f9-ace0-851f83c01656",
+    "currentFileId": "4f0792e6-a77f-4ce3-b6e9-12bc66344c68",
     "resources": {
       "s3serverlessCatDetectorImgRepoSigma": {
         "name": "s3serverlessCatDetectorImgRepoSigma",
@@ -203,7 +205,7 @@
     "projectRegion": "eu-west-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1565014531241
+    "lastSave": 1565014790213
   },
   "VCS_STATE": {
     "provider": "GitHub",

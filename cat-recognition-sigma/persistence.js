@@ -1,4 +1,3 @@
-let AWS = require('aws-sdk');
 'use strict';
 
 const config = require('./config');
