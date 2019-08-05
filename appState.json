@@ -140,8 +140,34 @@
       }
     },
     "customTemplate": {
-      "dialect": null,
-      "definitions": {}
+      "dialect": "CloudFormation",
+      "definitions": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Resources": {
+          "ServerlessCatDetectorStatusSigma": {
+            "Type": "AWS::DynamoDB::Table",
+            "Properties": {
+              "AttributeDefinitions": [
+                {
+                  "AttributeName": "name",
+                  "AttributeType": "S"
+                }
+              ],
+              "KeySchema": [
+                {
+                  "AttributeName": "name",
+                  "KeyType": "HASH"
+                }
+              ],
+              "ProvisionedThroughput": {
+                "ReadCapacityUnits": "5",
+                "WriteCapacityUnits": "5"
+              },
+              "TableName": "ServerlessCatDetectorStatusSigma"
+            }
+          }
+        }
+      }
     },
     "envVariables": [
       {
@@ -177,7 +203,7 @@
     "projectRegion": "eu-west-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1565008692317
+    "lastSave": 1565014531241
   },
   "VCS_STATE": {
     "provider": "GitHub",
