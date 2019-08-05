@@ -33,7 +33,16 @@
           "memory": 128,
           "layers": []
         },
-        "triggers": []
+        "triggers": [
+          {
+            "resourceName": "s3serverlessCatDetectorImgRepoSigma",
+            "config": {
+              "type": "s3:ObjectCreated:*",
+              "keyPrefix": "",
+              "keySuffix": ""
+            }
+          }
+        ]
       },
       "62473a78-42da-4e17-8f3b-d1be07bf9ab5": {
         "id": "62473a78-42da-4e17-8f3b-d1be07bf9ab5",
@@ -69,9 +78,7 @@
         "code": "'use strict';\n\nmodule.exports = () => {\n    var img_repo = process.env.BUCKET || 'serverless-cat-detector-img-repo-sigma';\n    var results_table = process.env.TABLE || 'ServerlessCatDetectorStatusSigma';\n\n    return {\n        serverless_cat_detector_img_repo: img_repo,\n        serverless_cat_detector_results_table: results_table\n    };\n};\n"
       }
     },
-    "deletedFiles": [
-      "cat-recognition-sigma/lambda.js"
-    ],
+    "deletedFiles": [],
     "rootNode": "0d982568-3e10-4b4f-a0c5-658fae6474a0",
     "openFiles": [
       "4f0792e6-a77f-4ce3-b6e9-12bc66344c68",
@@ -80,7 +87,19 @@
       "e0bc3aec-dd97-4828-ac6f-89e8454a4000"
     ],
     "currentFileId": "4f0792e6-a77f-4ce3-b6e9-12bc66344c68",
-    "resources": {},
+    "resources": {
+      "s3serverlessCatDetectorImgRepoSigma": {
+        "name": "s3serverlessCatDetectorImgRepoSigma",
+        "type": "S3",
+        "config": {
+          "mode": 0,
+          "bucket": {
+            "region": "eu-west-1",
+            "name": "serverless-cat-detector-img-repo-sigma"
+          }
+        }
+      }
+    },
     "customTemplate": {
       "dialect": null,
       "definitions": {}
@@ -96,7 +115,15 @@
       }
     ],
     "packageJSON": {
-      "dependencies": {}
+      "dependencies": {
+        "aws-sdk": {
+          "name": "aws-sdk",
+          "language": "javascript",
+          "version": "2.176.0",
+          "dev": true,
+          "notRemovable": false
+        }
+      }
     }
   },
   "PROJECT_META": {
@@ -106,7 +133,7 @@
     "projectRegion": "eu-west-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1565001025094
+    "lastSave": 1565002011529
   },
   "VCS_STATE": {
     "provider": "GitHub",
