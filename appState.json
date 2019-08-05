@@ -8,21 +8,24 @@
         "type": "DIRECTORY",
         "isDirectory": true,
         "children": [
-          "b7e926cc-eb0a-4e59-8b91-4d8e56cb0c0d"
+          "4f0792e6-a77f-4ce3-b6e9-12bc66344c68",
+          "62473a78-42da-4e17-8f3b-d1be07bf9ab5",
+          "e592c9ea-eebe-46f9-ace0-851f83c01656",
+          "e0bc3aec-dd97-4828-ac6f-89e8454a4000"
         ],
         "isRemovable": false,
         "filePath": "cat-recognition-sigma"
       },
-      "b7e926cc-eb0a-4e59-8b91-4d8e56cb0c0d": {
-        "id": "b7e926cc-eb0a-4e59-8b91-4d8e56cb0c0d",
+      "4f0792e6-a77f-4ce3-b6e9-12bc66344c68": {
+        "id": "4f0792e6-a77f-4ce3-b6e9-12bc66344c68",
         "parent": "0d982568-3e10-4b4f-a0c5-658fae6474a0",
-        "name": "lambda.js",
+        "name": "classification.js",
         "type": "JS_LAMBDA",
         "isDirectory": false,
         "children": [],
         "isRemovable": true,
-        "filePath": "cat-recognition-sigma/lambda.js",
-        "code": "exports.handler = function(event, context, callback) {\n    \n    callback(null, {\"message\": \"Successfully executed\"});\n}",
+        "filePath": "cat-recognition-sigma/classification.js",
+        "code": "'use strict';\n\nconst persistence = require('./persistence');\nconst recognition = require('./recognition');\n\nmodule.exports.imgClassification = async (event, _context) => {\n\n    console.log('Received event: %j', event);\n\n    const filesToBeChecked = module.exports.recordsToFiles(module.exports.filterEvents(event));\n    for (var i = 0; i< filesToBeChecked.length; ++i){\n        let fileName = filesToBeChecked[i]\n        await persistence.putStatus(fileName, false, 'new')\n        try {\n            let recognitionStatus = await recognition.check(fileName)\n            await persistence.putStatus(fileName, true, recognitionStatus)\n            console.log(\"Recognition success. Status updated.\")\n        } catch (error) {\n            console.log(error);\n            await persistence.putStatus(fileName, true, 'error')\n            console.log(\"Recognition error. Status updated.\")\n        }\n    }\n}\n\nmodule.exports.filterEvents = (s3Events) => {\n    const records = s3Events['Records'];\n    const fileAddedEvents = records.filter(function (event) {\n        return event['eventName'] == 'ObjectCreated:Put'\n    });\n    return fileAddedEvents;\n};\n\nmodule.exports.recordsToFiles = (s3Records) => {\n    return s3Records.map(function (record) {\n        return record['s3']['object']['key'];\n    });\n};",
         "config": {
           "runtime": "nodejs8.10",
           "handler": "handler",
@@ -30,23 +33,53 @@
           "memory": 128,
           "layers": []
         },
-        "triggers": [],
-        "testCases": {
-          "93bddc3b-ea7a-43de-baeb-60c777b73b59": {
-            "id": "93bddc3b-ea7a-43de-baeb-60c777b73b59",
-            "name": "Unnamed event",
-            "functionId": "b7e926cc-eb0a-4e59-8b91-4d8e56cb0c0d",
-            "event": "{\n    \"key1\": \"value1\",\n    \"key2\": \"value2\",\n    \"key3\": \"value3\"\n}"
-          }
-        }
+        "triggers": []
+      },
+      "62473a78-42da-4e17-8f3b-d1be07bf9ab5": {
+        "id": "62473a78-42da-4e17-8f3b-d1be07bf9ab5",
+        "parent": "0d982568-3e10-4b4f-a0c5-658fae6474a0",
+        "name": "recognition.js",
+        "type": "JS_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "cat-recognition-sigma/recognition.js",
+        "code": "'use strict';\n\nconst config = require('./config');\nconst AWSXRay = require('aws-xray-sdk');\nconst AWS = AWSXRay.captureAWS(require('aws-sdk'));\nconst rekognition = new AWS.Rekognition();\n\nmodule.exports.check = async (fileName) => {\n    const params = {\n        Image: {\n            S3Object: {\n                Bucket: config().serverless_cat_detector_img_repo,\n                Name: fileName\n            }\n        },\n        MaxLabels: 10,\n        MinConfidence: 60\n    };\n    return module.exports.imageLabel(await rekognition.detectLabels(params).promise())\n};\n\nmodule.exports.imageLabel = (data) => {\n    const isCat = module.exports.isCatRecognized(data);\n    if (isCat) {\n        return 'cat';\n    } else {\n        return 'other';\n    }\n};\n\nmodule.exports.isCatRecognized = (rawLabels) => {\n    const labels = rawLabels.Labels;\n    return labels.some(function (label) { return label.Name == 'Cat' });\n};"
+      },
+      "e592c9ea-eebe-46f9-ace0-851f83c01656": {
+        "id": "e592c9ea-eebe-46f9-ace0-851f83c01656",
+        "parent": "0d982568-3e10-4b4f-a0c5-658fae6474a0",
+        "name": "persistence.js",
+        "type": "JS_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "cat-recognition-sigma/persistence.js",
+        "code": "'use strict';\n\nconst config = require('./config');\nconst AWSXRay = require('aws-xray-sdk');\nconst AWS = AWSXRay.captureAWS(require('aws-sdk'));\nconst dynamoDb = new AWS.DynamoDB.DocumentClient();\n\nmodule.exports.dbItem = (fileName, scanned, scanningStatus) => {\n    return {\n        TableName: config().serverless_cat_detector_results_table,\n        Item: {\n            'name': fileName,\n            'checked': scanned,\n            'status': scanningStatus\n        }\n    };\n};\n\nmodule.exports.putStatus = (fileName, scanned, scanningStatus) => {\n    const statusItem = module.exports.dbItem(fileName, scanned, scanningStatus);\n    return dynamoDb.put(statusItem).promise();\n};\n\nmodule.exports.getStatusOfAll = async () => {\n    const params = {\n        TableName: config().serverless_cat_detector_results_table,\n        AttributesToGet: [\"name\", \"checked\", \"status\"]\n    };\n    return  (await dynamoDb.scan(params).promise()).Items;\n}"
+      },
+      "e0bc3aec-dd97-4828-ac6f-89e8454a4000": {
+        "id": "e0bc3aec-dd97-4828-ac6f-89e8454a4000",
+        "parent": "0d982568-3e10-4b4f-a0c5-658fae6474a0",
+        "name": "config.js",
+        "type": "JS_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "cat-recognition-sigma/config.js",
+        "code": "'use strict';\n\nmodule.exports = () => {\n    var img_repo = process.env.BUCKET || 'serverless-cat-detector-img-repo-sigma';\n    var results_table = process.env.TABLE || 'ServerlessCatDetectorStatusSigma';\n\n    return {\n        serverless_cat_detector_img_repo: img_repo,\n        serverless_cat_detector_results_table: results_table\n    };\n};\n"
       }
     },
-    "deletedFiles": [],
+    "deletedFiles": [
+      "cat-recognition-sigma/lambda.js"
+    ],
     "rootNode": "0d982568-3e10-4b4f-a0c5-658fae6474a0",
     "openFiles": [
-      "b7e926cc-eb0a-4e59-8b91-4d8e56cb0c0d"
+      "4f0792e6-a77f-4ce3-b6e9-12bc66344c68",
+      "62473a78-42da-4e17-8f3b-d1be07bf9ab5",
+      "e592c9ea-eebe-46f9-ace0-851f83c01656",
+      "e0bc3aec-dd97-4828-ac6f-89e8454a4000"
     ],
-    "currentFileId": "b7e926cc-eb0a-4e59-8b91-4d8e56cb0c0d",
+    "currentFileId": "4f0792e6-a77f-4ce3-b6e9-12bc66344c68",
     "resources": {},
     "customTemplate": {
       "dialect": null,
@@ -73,7 +106,7 @@
     "projectRegion": "eu-west-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1565000199505
+    "lastSave": 1565001025094
   },
   "VCS_STATE": {
     "provider": "GitHub",
