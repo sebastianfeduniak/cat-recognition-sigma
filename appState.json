@@ -1,0 +1,85 @@
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "0d982568-3e10-4b4f-a0c5-658fae6474a0": {
+        "id": "0d982568-3e10-4b4f-a0c5-658fae6474a0",
+        "parent": null,
+        "name": "cat-recognition-sigma",
+        "type": "DIRECTORY",
+        "isDirectory": true,
+        "children": [
+          "b7e926cc-eb0a-4e59-8b91-4d8e56cb0c0d"
+        ],
+        "isRemovable": false,
+        "filePath": "cat-recognition-sigma"
+      },
+      "b7e926cc-eb0a-4e59-8b91-4d8e56cb0c0d": {
+        "id": "b7e926cc-eb0a-4e59-8b91-4d8e56cb0c0d",
+        "parent": "0d982568-3e10-4b4f-a0c5-658fae6474a0",
+        "name": "lambda.js",
+        "type": "JS_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "cat-recognition-sigma/lambda.js",
+        "code": "exports.handler = function(event, context, callback) {\n    \n    callback(null, {\"message\": \"Successfully executed\"});\n}",
+        "config": {
+          "runtime": "nodejs8.10",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "triggers": [],
+        "testCases": {
+          "93bddc3b-ea7a-43de-baeb-60c777b73b59": {
+            "id": "93bddc3b-ea7a-43de-baeb-60c777b73b59",
+            "name": "Unnamed event",
+            "functionId": "b7e926cc-eb0a-4e59-8b91-4d8e56cb0c0d",
+            "event": "{\n    \"key1\": \"value1\",\n    \"key2\": \"value2\",\n    \"key3\": \"value3\"\n}"
+          }
+        }
+      }
+    },
+    "deletedFiles": [],
+    "rootNode": "0d982568-3e10-4b4f-a0c5-658fae6474a0",
+    "openFiles": [
+      "b7e926cc-eb0a-4e59-8b91-4d8e56cb0c0d"
+    ],
+    "currentFileId": "b7e926cc-eb0a-4e59-8b91-4d8e56cb0c0d",
+    "resources": {},
+    "customTemplate": {
+      "dialect": null,
+      "definitions": {}
+    },
+    "envVariables": [
+      {
+        "lambdaId": "all",
+        "varKey": "SIGMA_AWS_ACC_ID",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": false
+      }
+    ],
+    "packageJSON": {
+      "dependencies": {}
+    }
+  },
+  "PROJECT_META": {
+    "projectName": "cat-recognition-sigma",
+    "projectDescription": "",
+    "projectVersion": "1.0.0",
+    "projectRegion": "eu-west-1",
+    "platform": "AWS",
+    "platformRegions": {},
+    "lastSave": 1565000199505
+  },
+  "VCS_STATE": {
+    "provider": "GitHub",
+    "repo": {
+      "name": "cat-recognition-sigma",
+      "url": "https://github.com/sebastianfeduniak/cat-recognition-sigma"
+    }
+  }
+}
