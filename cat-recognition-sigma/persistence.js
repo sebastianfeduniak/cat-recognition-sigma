@@ -1,3 +1,4 @@
+let AWS = require('aws-sdk');
 'use strict';
 
 const config = require('./config');
@@ -26,5 +27,5 @@ module.exports.getStatusOfAll = async () => {
         TableName: config().serverless_cat_detector_results_table,
         AttributesToGet: ["name", "checked", "status"]
     };
-    return  (await dynamoDb.scan(params).promise()).Items;
+    return (await dynamoDb.scan(params).promise()).Items;
 }
