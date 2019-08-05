@@ -1,7 +1,9 @@
 {
   "name": "cat-recognition-sigma",
   "version": "1.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "aws-xray-sdk": "2.3.4"
+  },
   "devDependencies": {
     "aws-sdk": "2.176.0"
   }

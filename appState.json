@@ -86,7 +86,7 @@
       "e592c9ea-eebe-46f9-ace0-851f83c01656",
       "e0bc3aec-dd97-4828-ac6f-89e8454a4000"
     ],
-    "currentFileId": "4f0792e6-a77f-4ce3-b6e9-12bc66344c68",
+    "currentFileId": "e592c9ea-eebe-46f9-ace0-851f83c01656",
     "resources": {
       "s3serverlessCatDetectorImgRepoSigma": {
         "name": "s3serverlessCatDetectorImgRepoSigma",
@@ -122,6 +122,11 @@
           "version": "2.176.0",
           "dev": true,
           "notRemovable": false
+        },
+        "aws-xray-sdk": {
+          "name": "aws-xray-sdk",
+          "version": "2.3.4",
+          "language": "javascript"
         }
       }
     }
@@ -133,7 +138,7 @@
     "projectRegion": "eu-west-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1565002011529
+    "lastSave": 1565006299509
   },
   "VCS_STATE": {
     "provider": "GitHub",
