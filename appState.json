@@ -146,6 +146,45 @@
       "definitions": {
         "AWSTemplateFormatVersion": "2010-09-09",
         "Resources": {
+          "catRecognitionSigmaclassificationExecutionRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+              "ManagedPolicyArns": [
+                "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ],
+              "AssumeRolePolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Action": [
+                      "sts:AssumeRole"
+                    ],
+                    "Effect": "Allow",
+                    "Principal": {
+                      "Service": [
+                        "lambda.amazonaws.com"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "Policies": [
+                {
+                  "PolicyName": "CatRekognitionFullDynamo",
+                  "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Effect": "Allow",
+                        "Action": "dynamodb:*",
+                        "Resource": "arn:aws:dynamodb:eu-west-1:383430062921:table/ServerlessCatDetectorStatusSigma"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
           "ServerlessCatDetectorStatusSigma": {
             "Type": "AWS::DynamoDB::Table",
             "Properties": {
@@ -205,7 +244,7 @@
     "projectRegion": "eu-west-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1565014790213
+    "lastSave": 1565103676788
   },
   "VCS_STATE": {
     "provider": "GitHub",
