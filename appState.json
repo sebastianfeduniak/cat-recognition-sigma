@@ -49,6 +49,12 @@
             "name": "Sample1",
             "functionId": "4f0792e6-a77f-4ce3-b6e9-12bc66344c68",
             "event": "{\n    \"Records\": [\n        {\n            \"eventVersion\": \"2.1\",\n            \"eventSource\": \"aws:s3\",\n            \"awsRegion\": \"eu-west-1\",\n            \"eventTime\": \"2019-08-05T12:18:06.096Z\",\n            \"eventName\": \"ObjectCreated:Put\",\n            \"userIdentity\": {\n                \"principalId\": \"AWS:AIDAIHXQW7B7ETWPB2XGA\"\n            },\n            \"requestParameters\": {\n                \"sourceIPAddress\": \"193.25.0.11\"\n            },\n            \"responseElements\": {\n                \"x-amz-request-id\": \"C98081680E39E6DB\",\n                \"x-amz-id-2\": \"LBBxxTbzBOfEU3U7Z8fNkmLPvbAJo08dSCQ5eugQFHDJJz+93q8Dp1NNENaQfOhFO6jwjtZlqqY=\"\n            },\n            \"s3\": {\n                \"s3SchemaVersion\": \"1.0\",\n                \"configurationId\": \"1460218c-b8f9-4a05-b51c-8a66c09e7191\",\n                \"bucket\": {\n                    \"name\": \"serverless-cat-detector-img-repo-sigma\",\n                    \"ownerIdentity\": {\n                        \"principalId\": \"A21S5DT0VLDI06\"\n                    },\n                    \"arn\": \"arn:aws:s3:::serverless-cat-detector-img-repo-sigma\"\n                },\n                \"object\": {\n                    \"key\": \"Cat03.jpg\",\n                    \"size\": 156145,\n                    \"eTag\": \"63003ac4690522da8571d37c7879be68\",\n                    \"sequencer\": \"005D481E7DF6847D84\"\n                }\n            }\n        }\n    ]\n}\n"
+          },
+          "ba877067-f939-4677-b920-01ff4285f3d9": {
+            "id": "ba877067-f939-4677-b920-01ff4285f3d9",
+            "name": "Sample2",
+            "functionId": "4f0792e6-a77f-4ce3-b6e9-12bc66344c68",
+            "event": "{\n    \"Records\": [\n        {\n            \"eventVersion\": \"2.1\",\n            \"eventSource\": \"aws:s3\",\n            \"awsRegion\": \"eu-west-1\",\n            \"eventTime\": \"2019-08-06T15:02:13.205Z\",\n            \"eventName\": \"ObjectCreated:Put\",\n            \"userIdentity\": {\n                \"principalId\": \"AWS:AIDAIHXQW7B7ETWPB2XGA\"\n            },\n            \"requestParameters\": {\n                \"sourceIPAddress\": \"193.25.0.11\"\n            },\n            \"responseElements\": {\n                \"x-amz-request-id\": \"040BAC1EA1722A1F\",\n                \"x-amz-id-2\": \"tdj8KUFsnim5FRuA797Y/7c6yqKkkrSn0fRx7oEUsCML/p/HH22nam8QgpGsInQGZfyaRiHlrJ0=\"\n            },\n            \"s3\": {\n                \"s3SchemaVersion\": \"1.0\",\n                \"configurationId\": \"1460218c-b8f9-4a05-b51c-8a66c09e7191\",\n                \"bucket\": {\n                    \"name\": \"serverless-cat-detector-img-repo-sigma\",\n                    \"ownerIdentity\": {\n                        \"principalId\": \"A21S5DT0VLDI06\"\n                    },\n                    \"arn\": \"arn:aws:s3:::serverless-cat-detector-img-repo-sigma\"\n                },\n                \"object\": {\n                    \"key\": \"Seba.jpg\",\n                    \"size\": 293501,\n                    \"eTag\": \"d62c0d7a74a2384c8abac5a2897788ea\",\n                    \"sequencer\": \"005D4996751D22B7B8\"\n                }\n            }\n        }\n    ]\n}"
           }
         }
       },
@@ -94,7 +100,7 @@
       "62473a78-42da-4e17-8f3b-d1be07bf9ab5",
       "4f0792e6-a77f-4ce3-b6e9-12bc66344c68"
     ],
-    "currentFileId": "4f0792e6-a77f-4ce3-b6e9-12bc66344c68",
+    "currentFileId": "e592c9ea-eebe-46f9-ace0-851f83c01656",
     "resources": {
       "s3serverlessCatDetectorImgRepoSigma": {
         "name": "s3serverlessCatDetectorImgRepoSigma",
@@ -176,7 +182,10 @@
                     "Statement": [
                       {
                         "Effect": "Allow",
-                        "Action": "dynamodb:*",
+                        "Action": [
+                          "dynamodb:*",
+                          "rekognition:*"
+                        ],
                         "Resource": "arn:aws:dynamodb:eu-west-1:383430062921:table/ServerlessCatDetectorStatusSigma"
                       }
                     ]
@@ -244,7 +253,7 @@
     "projectRegion": "eu-west-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1565103676788
+    "lastSave": 1565162934142
   },
   "VCS_STATE": {
     "provider": "GitHub",
