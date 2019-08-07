@@ -184,7 +184,8 @@
                         "Effect": "Allow",
                         "Action": [
                           "dynamodb:*",
-                          "rekognition:*"
+                          "rekognition:*",
+                          "s3:*"
                         ],
                         "Resource": "*"
                       }
@@ -253,7 +254,7 @@
     "projectRegion": "eu-west-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1565163426006
+    "lastSave": 1565164410811
   },
   "VCS_STATE": {
     "provider": "GitHub",
