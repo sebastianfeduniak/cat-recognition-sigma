@@ -186,7 +186,7 @@
                           "dynamodb:*",
                           "rekognition:*"
                         ],
-                        "Resource": "arn:aws:dynamodb:eu-west-1:383430062921:table/ServerlessCatDetectorStatusSigma"
+                        "Resource": "*"
                       }
                     ]
                   }
@@ -253,7 +253,7 @@
     "projectRegion": "eu-west-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1565162934142
+    "lastSave": 1565163426006
   },
   "VCS_STATE": {
     "provider": "GitHub",
