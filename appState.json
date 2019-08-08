@@ -239,8 +239,8 @@
           "dev": true,
           "notRemovable": false
         },
-        "aws-xray-sdk-core": {
-          "name": "aws-xray-sdk-core",
+        "aws-xray-sdk": {
+          "name": "aws-xray-sdk",
           "version": "2.3.4",
           "language": "javascript"
         }
@@ -254,7 +254,7 @@
     "projectRegion": "eu-west-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1565259150535
+    "lastSave": 1565259232866
   },
   "VCS_STATE": {
     "provider": "GitHub",
