@@ -4,7 +4,6 @@ const persistence = require('./persistence');
 const recognition = require('./recognition');
 
 module.exports.handler = async (event, _context) => {
-    debugger;
 
     console.log('Received event: %j', event);
 
