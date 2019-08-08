@@ -25,7 +25,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "cat-recognition-sigma/classification.js",
-        "code": "'use strict';\n\nconst persistence = require('./persistence');\nconst recognition = require('./recognition');\n\nmodule.exports.handler = async (event, _context) => {\n\n    console.log('Received event: %j', event);\n\n    const filesToBeChecked = module.exports.recordsToFiles(module.exports.filterEvents(event));\n    for (var i = 0; i< filesToBeChecked.length; ++i){\n        let fileName = filesToBeChecked[i]\n        await persistence.putStatus(fileName, false, 'new')\n        try {\n            let recognitionStatus = await recognition.check(fileName)\n            await persistence.putStatus(fileName, true, recognitionStatus)\n            console.log(\"Recognition success. Status updated.\")\n        } catch (error) {\n            console.log(error);\n            await persistence.putStatus(fileName, true, 'error')\n            console.log(\"Recognition error. Status updated.\")\n        }\n    }\n}\n\nmodule.exports.filterEvents = (s3Events) => {\n    const records = s3Events['Records'];\n    const fileAddedEvents = records.filter(function (event) {\n        return event['eventName'] == 'ObjectCreated:Put'\n    });\n    return fileAddedEvents;\n};\n\nmodule.exports.recordsToFiles = (s3Records) => {\n    return s3Records.map(function (record) {\n        return record['s3']['object']['key'];\n    });\n};",
+        "code": "'use strict';\n\nconst persistence = require('./persistence');\nconst recognition = require('./recognition');\n\nmodule.exports.handler = async (event, _context) => {\n    debugger;\n\n    console.log('Received event: %j', event);\n\n    const filesToBeChecked = module.exports.recordsToFiles(module.exports.filterEvents(event));\n    for (var i = 0; i < filesToBeChecked.length; ++i) {\n        let fileName = filesToBeChecked[i]\n        await persistence.putStatus(fileName, false, 'new')\n        try {\n            let recognitionStatus = await recognition.check(fileName)\n            await persistence.putStatus(fileName, true, recognitionStatus)\n            console.log(\"Recognition success. Status updated.\")\n        } catch (error) {\n            console.log(error);\n            await persistence.putStatus(fileName, true, 'error')\n            console.log(\"Recognition error. Status updated.\")\n        }\n    }\n}\n\nmodule.exports.filterEvents = (s3Events) => {\n    const records = s3Events['Records'];\n    const fileAddedEvents = records.filter(function (event) {\n        return event['eventName'] == 'ObjectCreated:Put'\n    });\n    return fileAddedEvents;\n};\n\nmodule.exports.recordsToFiles = (s3Records) => {\n    return s3Records.map(function (record) {\n        return record['s3']['object']['key'];\n    });\n};",
         "config": {
           "runtime": "nodejs8.10",
           "handler": "handler",
@@ -100,7 +100,7 @@
       "62473a78-42da-4e17-8f3b-d1be07bf9ab5",
       "4f0792e6-a77f-4ce3-b6e9-12bc66344c68"
     ],
-    "currentFileId": "e592c9ea-eebe-46f9-ace0-851f83c01656",
+    "currentFileId": "4f0792e6-a77f-4ce3-b6e9-12bc66344c68",
     "resources": {
       "s3serverlessCatDetectorImgRepoSigma": {
         "name": "s3serverlessCatDetectorImgRepoSigma",
@@ -239,8 +239,8 @@
           "dev": true,
           "notRemovable": false
         },
-        "aws-xray-sdk": {
-          "name": "aws-xray-sdk",
+        "aws-xray-sdk-core": {
+          "name": "aws-xray-sdk-core",
           "version": "2.3.4",
           "language": "javascript"
         }
@@ -254,7 +254,7 @@
     "projectRegion": "eu-west-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1565164410811
+    "lastSave": 1565259150535
   },
   "VCS_STATE": {
     "provider": "GitHub",

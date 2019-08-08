@@ -4,11 +4,12 @@ const persistence = require('./persistence');
 const recognition = require('./recognition');
 
 module.exports.handler = async (event, _context) => {
+    debugger;
 
     console.log('Received event: %j', event);
 
     const filesToBeChecked = module.exports.recordsToFiles(module.exports.filterEvents(event));
-    for (var i = 0; i< filesToBeChecked.length; ++i){
+    for (var i = 0; i < filesToBeChecked.length; ++i) {
         let fileName = filesToBeChecked[i]
         await persistence.putStatus(fileName, false, 'new')
         try {
